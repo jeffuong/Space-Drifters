@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class FollowObject : MonoBehaviour {
 
+	// VARIABLES //
 	public Transform target;				//target to follow
 	public float offset = 0.0f;				//offset forward/backward (+/-)
 	public float speed = 4.0f;				//follow speed [0-1]
@@ -13,17 +14,21 @@ public class FollowObject : MonoBehaviour {
 	//	private float _catchupDistance = 0.0f;	//distance remaining to catchup (for catch-up mode)
 
 	//testing...
+	public Vector3 targetVelocity;
 	public Vector3 targetPosition;
 	public Vector3 ownPosition;
 	public float distanceTo;
+	public float targetSpeed;
 	//
 	void Update() {
+		targetVelocity = target.gameObject.GetComponent<Rigidbody2D>().velocity;
 		targetPosition = target.position;
 		ownPosition = transform.position;
 		//
 		Vector3 ownPosFlat = ownPosition;
 		ownPosFlat.z = 0.0f;
 		distanceTo = (targetPosition - ownPosFlat).magnitude;
+		targetSpeed = targetVelocity.magnitude;
 	}
 
 	void FixedUpdate () {
@@ -37,10 +42,14 @@ public class FollowObject : MonoBehaviour {
 
 		//set new position
 		new_pos.z = transform.position.z;
-		transform.position = Vector3.Lerp (transform.position, new_pos, speed * Time.deltaTime);
+		transform.position = Vector3.Lerp (transform.position, new_pos, speed * Time.fixedDeltaTime);// Time.deltaTime);
 
 		//cap max distance
 		Vector3 gap_vec = new_pos - transform.position;
+		//
+		//testing...
+		transform.position = new_pos - (gap_vec.normalized * maxDistance);
+		//
 		if (gap_vec.magnitude > maxDistance)
 		{
 			transform.position = new_pos - (gap_vec.normalized * maxDistance);

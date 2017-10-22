@@ -4,9 +4,11 @@ using UnityEngine;
 
 public class Controls : MonoBehaviour {
 
+	// VARIABLES //
 	public Vector2 movementSpeed;
 	public float rotationSpeed;
 	Rigidbody2D rb;
+
 	// Use this for initialization
 	//Ctor for gameobjects
 	void Start () 
@@ -36,6 +38,5 @@ public class Controls : MonoBehaviour {
 		//input: SPACE -> stop
 		if ( Input.GetKeyDown(KeyCode.Space) )
 			rb.velocity = new Vector2( 0.0f, 0.0f );	//stops
-
 	}
 }
