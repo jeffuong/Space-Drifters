@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class blackhole : MonoBehaviour {
+public class Blackhole : MonoBehaviour {
 
 	public float RealitiveWeight;
 	private GameObject player;

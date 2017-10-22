@@ -11,9 +11,9 @@ public class Controls : MonoBehaviour {
 	//Ctor for gameobjects
 	void Start () 
 	{
-
+		rb = GetComponent<Rigidbody2D> ();
 	}
-	
+
 	// Update is called once per frame
 	void Update () 
 	{
@@ -24,7 +24,7 @@ public class Controls : MonoBehaviour {
 
 		Vector2 accel = Input.GetAxis("Vertical") * movementSpeed;
 		accel *= Time.deltaTime;
-		GetComponent<Rigidbody2D> ().AddRelativeForce (accel, ForceMode2D.Impulse);
+		rb.AddRelativeForce (accel, ForceMode2D.Impulse);
 		GetComponent<LineRenderer>().startColor = Color.red;
 		GetComponent<LineRenderer> ().SetPosition (0, transform.position);
 		Vector3 endpoint = transform.up;
@@ -32,6 +32,10 @@ public class Controls : MonoBehaviour {
 		GetComponent<LineRenderer> ().startWidth = .2f;
 
 		//GetComponent<Rigidbody2D> ().AddTorque (rotation * rotationForce * Time.deltaTime);
+
+		//input: SPACE -> stop
+		if ( Input.GetKeyDown(KeyCode.Space) )
+			rb.velocity = new Vector2( 0.0f, 0.0f );	//stops
 
 	}
 }
