@@ -2,6 +2,8 @@
 //
 // GameObject 	--> Has()
 //					GetParent(), SetParent()
+//					GetRoot()
+//					DebugLineage()
 
 using UnityEngine;
 using System.Collections;
@@ -65,7 +67,10 @@ public static class GameObjectExtension
 	/// </remarks>
 	public static GameObject GetParent( this GameObject gObj )
 	{
-		return gObj.transform.parent.gameObject;
+		if ( gObj.transform.parent != null )
+			return gObj.transform.parent.gameObject;
+		else
+			return null;
 	}
 	//
 	/// <summary>
@@ -88,6 +93,51 @@ public static class GameObjectExtension
 	//
 	//NOTE:		At the time of writing, C# does not support 
 	//			extension properties yet, only extension methods.
+
+	// GetRoot()
+	//
+	/// <summary>
+	/// Gets the top-level ancestor GameObject of this game-obj (at global level).
+	/// Returns itself if no parent is found (already global level).
+	/// </summary>
+	/// 
+	/// <remarks>
+	/// The parent-child relation actually belongs to the Transform.
+	/// In Unity, the Transform component cannot be removed.
+	/// It is used to determine the default hierarchy.
+	/// </remarks>
+	public static GameObject GetRoot( this GameObject gObj )
+	{
+		return gObj.transform.root.gameObject;
+	}
+
+
+	// DebugLineage()
+	//
+	/// <summary>
+	/// Traces out GameObject lineage via Debug.Log()
+	/// </summary>
+	/// 
+	/// <remarks>
+	/// Uses the GetParent() extension method.
+	/// </remarks>
+	public static void DebugLineage( this GameObject gObj )
+	{
+		//lineage
+		GameObject current_obj = gObj;							//current GameObject in the trace
+		string lineage = gObj.name;								//lineage up to global
+		//
+		while ( current_obj.GetParent() != null )
+		{
+			lineage += " <- " + current_obj.GetParent().name;	//concat parent name
+			current_obj = current_obj.GetParent();				//walk up lineage tree
+		}
+		//
+		lineage += " <- GLOBAL";
+
+		//trace out
+		Debug.Log( "\t" + lineage );
+	}
 
 
 }
@@ -135,5 +185,29 @@ gameObject.SetParent( newParent );
 
 // unparent
 gameObject.SetParent( null );
+
+/*
+
+/*	GetRoot()
+
+using UnityEngine;
+using System.Collections;
+
+// Example Usage
+
+// get root parent
+GameObject rootObj = gameObject.GetRoot();
+
+/*
+
+/*	DebugLineage()
+
+using UnityEngine;
+using System.Collections;
+
+// Example Usage
+
+// trace out lineage
+gameObject.DebugLineage();
 
 */

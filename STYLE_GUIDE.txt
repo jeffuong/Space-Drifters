@@ -1,0 +1,30 @@
+STYLE GUIDE
+...basic ver. 1.0
+
+//////////
+// CODE //
+//////////
+
+ClassNames
+ScriptNames
+FunctionNames()
+memberVariables
+local_variables
+Enums { STATE_01, STATE_02, ETC };
+
+///////////
+// FILES //
+///////////
+
+FilesNames
+FolderNames
+
+EXCEPTIONS
+_Scenes folder
+_my_temp_WIP folder (1 per person)
+any folders inside _your_temp folders (whatever you want)
+
+NOTE:
+When anything is going to be used publicly outside of personal test scenes, 
+they need to come out of _temp_folders and follow style guidelines.
+
